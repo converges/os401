@@ -24,17 +24,14 @@ int main() {
                 // block2 -> block3
                 pthread_create(&car[i][j], NULL, block, (void *) 2);
                 pthread_create(&car[i][j], NULL, block, (void *) 3);
-                pthread_join(car[i][j], NULL);
-                pthread_join(car[i][j], NULL);
+                
             }
             else if (i==1) {
                 // block2 -> block 3 -> block 4
                 pthread_create(&car[i][j], NULL, block, (void *) 2);
                 pthread_create(&car[i][j], NULL, block, (void *) 3);
                 pthread_create(&car[i][j], NULL, block, (void *) 4);
-                pthread_join(car[i][j], NULL);
-                pthread_join(car[i][j], NULL);
-                pthread_join(car[i][j], NULL);
+                
             }
             else if (i==2) {
                 // block 4 -> block 1
@@ -52,6 +49,12 @@ int main() {
                 pthread_join(car[i][j], NULL);
                 pthread_join(car[i][j], NULL);
             }
+        }
+    }
+
+    for (int i=0; i<4; i++) {
+        for (int j=0; j<3; j++) {
+            pthread_join(car[i][j], NULL);
         }
     }
     
