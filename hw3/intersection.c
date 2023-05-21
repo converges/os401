@@ -47,7 +47,7 @@ int main(void) {
         pthread_create(&car_thread[3][i], NULL, thread_go_north, (void*)intPtr);
     }
 
-    for (int i=0; i<4; i++) {
+    for (int i=0; i<3; i++) {
         pthread_join(car_thread[0][i], NULL);
         pthread_join(car_thread[1][i], NULL);
         pthread_join(car_thread[2][i], NULL);
