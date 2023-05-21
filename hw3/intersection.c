@@ -79,7 +79,7 @@ void* thread_go_north(void* i) {
 
     printf("BLOCK 3 -> 0: Car no.%d from South\n", train_num);
 
-    // sleep(1);
+    sleep(1);
 
     sem_post(&sem[0]);
     sem_post(&sem[3]);
@@ -97,7 +97,7 @@ void* thread_go_south(void* i) {
 
     printf("BLOCK 1 -> 2: Car no.%d from North\n", train_num);
 
-    // sleep(1);
+    sleep(1);
 
     sem_post(&sem[1]);
     sem_post(&sem[2]);
@@ -116,8 +116,7 @@ void* thread_go_east(void* i) {
 
     printf("BLOCK 1 -> 2 -> 3: Car no.%d from North\n", train_num);
 
-
-    // sleep(1);
+    sleep(1);
 
     sem_post(&sem[1]);
     sem_post(&sem[2]);
@@ -137,7 +136,7 @@ void* thread_go_west(void* i) {
 
     printf("BLOCK 3 -> 0 -> 1: Car no.%d from South\n", train_num);
 
-    // sleep(1);
+    sleep(1);
 
     sem_post(&sem[3]);
     sem_post(&sem[0]);
