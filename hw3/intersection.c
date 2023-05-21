@@ -80,6 +80,9 @@ void* thread_go_north(void* i) {
         sleep(0.5);
     }
 
+    block_available[0] = false;
+    block_available[3] = false;
+
     // Block: 3 -> 0
     sem_wait(&sem[3]);
     printf("BLOCK 3: Car %d to North has passed\n", train_num);
@@ -92,6 +95,8 @@ void* thread_go_north(void* i) {
     sem_post(&sem[3]);
     printf("BLOCK 3 -> 0: Car %d has been passed through the intersection\n", train_num);
 
+    block_available[0] = true;
+    block_available[3] = true;
 
     free(i);
     pthread_exit(NULL);
@@ -99,6 +104,13 @@ void* thread_go_north(void* i) {
 
 void* thread_go_south(void* i) {
 	int train_num = *((int*)i);
+
+    while (!block_available[1] || !block_available[2]) {
+        sleep(0.5);
+    }
+
+    block_available[1] = false;
+    block_available[2] = false;
 
     // Block 1 -> 2
     sem_wait(&sem[1]);
@@ -112,12 +124,23 @@ void* thread_go_south(void* i) {
     sem_post(&sem[2]);
     printf("BLOCK 1 -> 2: Car %d has been passed through the intersection\n", train_num);
 
+    block_available[1] = true;
+    block_available[2] = true;
+
     free(i);
     pthread_exit(NULL);
 }
 
 void* thread_go_east(void* i) {
     int train_num = *((int*)i);
+
+    while (!block_available[1] || !block_available[2] || !block_available[3]) {
+        sleep(0.5);
+    }
+
+    block_available[1] = false;
+    block_available[2] = false;
+    block_available[3] = false;
 
     // Block 1 -> 2 -> 3
     sem_wait(&sem[1]);
@@ -134,12 +157,24 @@ void* thread_go_east(void* i) {
     sem_post(&sem[3]);
     printf("BLOCK 1 -> 2 -> 3: Car %d has been passed through the intersection\n", train_num);
 
+    block_available[1] = true;
+    block_available[2] = true;
+    block_available[3] = true;
+
     free(i);
     pthread_exit(NULL);
 }
 
 void* thread_go_west(void* i) {
     int train_num = *((int*)i);
+
+    while (!block_available[3] || !block_available[0] || !block_available[1]) {
+        sleep(0.5);
+    }
+
+    block_available[3] = false;
+    block_available[0] = false;
+    block_available[1] = false;
 
     // Block 3 -> 0 -> 1
     sem_wait(&sem[3]);
@@ -155,6 +190,10 @@ void* thread_go_west(void* i) {
     sem_post(&sem[0]);
     sem_post(&sem[1]);
     printf("BLOCK 3 -> 0 -> 1: Car %d has been passed through the intersection\n", train_num);
+
+    block_available[3] = true;
+    block_available[0] = true;
+    block_available[1] = true;
 
     free(i);
     pthread_exit(NULL);
