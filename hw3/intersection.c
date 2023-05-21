@@ -42,15 +42,15 @@ int main(void) {
         *intPtr = i+1;
         pthread_create(&car_thread[0][i], NULL, thread_go_east, (void*)intPtr);
 
-        int* intPtr = (int*)malloc(sizeof(int));
+        intPtr = (int*)malloc(sizeof(int));
         *intPtr = i+1;
         pthread_create(&car_thread[1][i], NULL, thread_go_west, (void*)intPtr);
 
-        int* intPtr = (int*)malloc(sizeof(int));
+        intPtr = (int*)malloc(sizeof(int));
         *intPtr = i+1;
         pthread_create(&car_thread[2][i], NULL, thread_go_south, (void*)intPtr);
 
-        int* intPtr = (int*)malloc(sizeof(int));
+        intPtr = (int*)malloc(sizeof(int));
         *intPtr = i+1;
         pthread_create(&car_thread[3][i], NULL, thread_go_north, (void*)intPtr);
     }
