@@ -1,7 +1,6 @@
 /* May 21, 2023
  * OS 401
  * Homework 3
- * Woohyuk An, Mathematics, 201902097
  */
 
 #include <stdio.h>
@@ -71,11 +70,10 @@ void* thread_go_north(void* i) {
     sem_wait(&sem[3]);
     sem_wait(&sem[0]);
 
-    printf("A car from south no.%d has been to pass through the intersection\n", train_num);
+    printf("BLOCK 3 -> 0: Car no.%d from South\n", train_num);
 
     /* Critical Section */
     sleep(1);
-    printf("A car from south no.%d has been passed through the intersection\n", train_num);
 
     sem_post(&sem[0]);
     sem_post(&sem[3]);
@@ -90,11 +88,10 @@ void* thread_go_south(void* i) {
     sem_wait(&sem[1]);
     sem_wait(&sem[2]);
 
-    printf("A car from north no.%d has been to pass through the intersection\n", train_num);
+    printf("BLOCK 1 -> 2: Car no.%d from North\n", train_num);
 
     /* Critical Section */
     sleep(1);
-    printf("A car from north no.%d has been passed through the intersection\n", train_num);
 
     sem_post(&sem[1]);
     sem_post(&sem[2]);
@@ -110,11 +107,11 @@ void* thread_go_east(void* i) {
     sem_wait(&sem[2]);
     sem_wait(&sem[3]);
 
-    printf("A car from North no.%d has turned left passing through the intersection\n", train_num);
+    printf("BLOCK 1 -> 2 -> 3: Car no.%d from North\n", train_num);
+
 
     /* Critical Section */
     sleep(1);
-    printf("A car from North no.%d has been turned left passing through the intersection\n", train_num);
 
     sem_post(&sem[1]);
     sem_post(&sem[2]);
@@ -131,11 +128,10 @@ void* thread_go_west(void* i) {
     sem_wait(&sem[0]);
     sem_wait(&sem[1]);
 
-    printf("A car from South no.%d has turned left passing through the intersection\n", train_num);
+    printf("BLOCK 3 -> 0 -> 1: Car no.%d from South\n", train_num);
 
     /* Critical Section */
     sleep(1);
-    printf("A car from South no.%d has been turned left passing through the intersection\n", train_num);
 
     sem_post(&sem[3]);
     sem_post(&sem[0]);
