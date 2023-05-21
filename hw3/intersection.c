@@ -38,12 +38,20 @@ int main(void) {
      */
 
     for (int i=0; i<3; i++) {
-        int train_num = i+1;
         int* intPtr = (int*)malloc(sizeof(int));
         *intPtr = i+1;
         pthread_create(&car_thread[0][i], NULL, thread_go_east, (void*)intPtr);
+
+        int* intPtr = (int*)malloc(sizeof(int));
+        *intPtr = i+1;
         pthread_create(&car_thread[1][i], NULL, thread_go_west, (void*)intPtr);
+
+        int* intPtr = (int*)malloc(sizeof(int));
+        *intPtr = i+1;
         pthread_create(&car_thread[2][i], NULL, thread_go_south, (void*)intPtr);
+
+        int* intPtr = (int*)malloc(sizeof(int));
+        *intPtr = i+1;
         pthread_create(&car_thread[3][i], NULL, thread_go_north, (void*)intPtr);
     }
 
@@ -54,10 +62,9 @@ int main(void) {
         pthread_join(car_thread[3][i], NULL);
     }
 
-    sem_destroy(&sem[0]);
-    sem_destroy(&sem[1]);
-    sem_destroy(&sem[2]);
-    sem_destroy(&sem[3]);
+    for (int i=0; i<4; i++) {
+        sem_destroy(&sem[i]);
+    }
 
     return 0;
 }
@@ -72,13 +79,13 @@ void* thread_go_north(void* i) {
 
     printf("BLOCK 3 -> 0: Car no.%d from South\n", train_num);
 
-    /* Critical Section */
-    sleep(1);
+    // sleep(1);
 
     sem_post(&sem[0]);
     sem_post(&sem[3]);
 
     free(i);
+    pthread_exit(NULL);
 }
 
 void* thread_go_south(void* i) {
@@ -90,13 +97,13 @@ void* thread_go_south(void* i) {
 
     printf("BLOCK 1 -> 2: Car no.%d from North\n", train_num);
 
-    /* Critical Section */
-    sleep(1);
+    // sleep(1);
 
     sem_post(&sem[1]);
     sem_post(&sem[2]);
 
     free(i);
+    pthread_exit(NULL);
 }
 
 void* thread_go_east(void* i) {
@@ -110,14 +117,14 @@ void* thread_go_east(void* i) {
     printf("BLOCK 1 -> 2 -> 3: Car no.%d from North\n", train_num);
 
 
-    /* Critical Section */
-    sleep(1);
+    // sleep(1);
 
     sem_post(&sem[1]);
     sem_post(&sem[2]);
     sem_post(&sem[3]);
 
     free(i);
+    pthread_exit(NULL);
 }
 
 void* thread_go_west(void* i) {
@@ -130,12 +137,12 @@ void* thread_go_west(void* i) {
 
     printf("BLOCK 3 -> 0 -> 1: Car no.%d from South\n", train_num);
 
-    /* Critical Section */
-    sleep(1);
+    // sleep(1);
 
     sem_post(&sem[3]);
     sem_post(&sem[0]);
     sem_post(&sem[1]);
 
     free(i);
+    pthread_exit(NULL);
 }
